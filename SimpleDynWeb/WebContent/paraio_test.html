@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+</head>
+<script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script>
+var settings = {
+  "url": "https://paraio.com/v1/object1s",
+  "method": "GET",
+  "timeout": 0,
+  "headers": {
+    "Authorization": "AWS4-HMAC-SHA256 Credential=app:dbapp/20200103/us-east-1/para/aws4_request, SignedHeaders=host;x-amz-date, Signature=cd6f89b6b44d71439c8b952b95769eca4a85b1cb8f9ba98e40d58346fc7035fc"
+  },
+};
+
+(function($) {
+$.ajax(settings).done(function (response) {
+  console.log("entrou...");	
+  alert(response);	
+  console.log(response);
+});
+})(jQuery);
+</script>
+</html>

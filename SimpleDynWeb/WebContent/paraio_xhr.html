@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<script>
+
+var xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+
+xhr.addEventListener("readystatechange", function() {
+  if(this.readyState === 4) {
+    console.log(this.responseText);
+  }
+});
+
+xhr.open("GET", "https://paraio.com/v1/object1s");
+xhr.setRequestHeader("Authorization", "AWS4-HMAC-SHA256 Credential=app:dbapp/20200103/us-east-1/para/aws4_request, SignedHeaders=host;x-amz-date, Signature=4c0c024f8f08ac4478d29781922219d03f470c097c142a36e91244fc59975950");
+
+xhr.send();
+
+</script>
+<body>
+
+</body>
+</html>
