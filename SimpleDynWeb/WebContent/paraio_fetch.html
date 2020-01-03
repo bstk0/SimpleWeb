@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<script>
+
+var myHeaders = new Headers();
+myHeaders.append("Authorization", "AWS4-HMAC-SHA256 Credential=app:dbapp/20200104/us-east-1/para/aws4_request, SignedHeaders=host;x-amz-date, Signature=4c0c024f8f08ac4478d29781922219d03f470c097c142a36e91244fc59975950");
+//myHeaders.append("Authorization", "AWS4-HMAC-SHA256 Credential=app:dbapp/20200105/us-east-1/para/aws4_request, SignedHeaders=host;x-amz-date, Signature=O2dxZ2QpvHCrbHHkm5gbc8XNlISf1x9p1CuB6iyjCg9u0g8Y8NZZDQ==");
+
+
+var requestOptions = {
+  method: 'GET',
+  headers: myHeaders,
+  redirect: 'follow'
+};
+
+fetch("https://paraio.com/v1/object1s", requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
+
+</script>
+<body>
+
+</body>
+</html>
