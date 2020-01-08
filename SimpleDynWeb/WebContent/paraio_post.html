@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+</head>
+<script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script>
+/*
+var settings = {
+  "url": "https://paraio.com/v1/object1s",
+  "method": "GET",
+  "timeout": 0,
+  "headers": {
+    "Authorization": "AWS4-HMAC-SHA256 Credential=app:dbapp/20200110/us-east-1/para/aws4_request, SignedHeaders=host;x-amz-date, Signature=cd6f89b6b44d71439c8b952b95769eca4a85b1cb8f9ba98e40d58346fc7035fc"
+  },
+};
+*/
+
+var settings = {
+		  "url": "https://paraio.com/v1/object1s",
+		  "method": "POST",
+		  "timeout": 0,
+		  headers: { "Authorization": "Anonymous app:dbapp" },
+		};
+
+(function($) {
+	
+//$.ajax(settings).done(function (response) {
+//  console.log("in...");	
+//  alert(response);	
+//  console.log(response);
+//});
+
+$.ajax({
+	         url : "https://paraio.com/v1/object1",
+	          type : 'post',
+	          headers: { "Authorization": "Anonymous app:dbapp" },
+	          contentType: 'application/json',
+	          data :  JSON.stringify({
+	        	   type : "object1",
+	               titulo : "TESTE POST",
+	               resumo: "TESTE POST - paraio_post",
+	               ano :'2020'
+	          }),
+	          beforeSend : function(){
+	               $("#resultado").html("ENVIANDO...");
+	          }
+	     })
+	     .done(function(msg){
+	          $("#resultado").html(msg);
+	     })
+	     .fail(function(jqXHR, textStatus, msg){
+	          alert(jqXHR.responseText);
+	     });
+
+
+})(jQuery);
+</script>
+<body>
+<div id="resultado"></div>
+</body>
+</html>
