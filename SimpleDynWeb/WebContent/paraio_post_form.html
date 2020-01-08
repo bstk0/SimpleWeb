@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script>
+      $(function () {
+
+        $('form').on('submit', function (e) {
+
+          e.preventDefault();
+          
+          var titulo = $("#titulo").val();
+          var resumo = $("#resumo").val();
+          var ano = $("#ano").val();
+
+          var userDetails = {
+            "titulo": titulo,
+            "resumo": resumo,
+            "ano": ano
+          };
+
+          $.ajax({
+ 	        url : "https://paraio.com/v1/object1",
+	        type : 'post',
+	        headers: { "Authorization": "Anonymous app:dbapp" },
+	        contentType: 'application/json',
+            data:  JSON.stringify(userDetails), //$('form').serialize(),
+            success: function () {
+              alert('form was submitted');
+            }
+          });
+
+        });
+
+      });
+      
+/*
+	        	   type : "object1",
+	               titulo : "TESTE BISTERÇO 3",
+	               resumo: "TESTE POST - acentuação",
+	               ano :'2020'
+
+*/
+    </script>
+  </head>
+  <body>
+    <form>
+      Titulo <input name="titulo" id="titulo"><br>
+      Resumo <input name="resumo" id="resumo"><br>
+      ANO <input name="ano" id="ano"><br>
+      <input name="submit" type="submit" value="Submit">
+    </form>
+  </body>
+</html>

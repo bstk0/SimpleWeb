@@ -38,16 +38,16 @@ $.ajax({
 	          contentType: 'application/json',
 	          data :  JSON.stringify({
 	        	   type : "object1",
-	               titulo : "TESTE POST",
-	               resumo: "TESTE POST - paraio_post",
+	               titulo : "TESTE BISTERÇO 3",
+	               resumo: "TESTE POST - acentuação",
 	               ano :'2020'
 	          }),
 	          beforeSend : function(){
-	               $("#resultado").html("ENVIANDO...");
+	               $(".resultado").html("ENVIANDO...");
 	          }
 	     })
 	     .done(function(msg){
-	          $("#resultado").html(msg);
+	          $(".resultado").html(msg);
 	     })
 	     .fail(function(jqXHR, textStatus, msg){
 	          alert(jqXHR.responseText);
@@ -57,6 +57,6 @@ $.ajax({
 })(jQuery);
 </script>
 <body>
-<div id="resultado"></div>
+<div class="resultado"></div>
 </body>
 </html>
