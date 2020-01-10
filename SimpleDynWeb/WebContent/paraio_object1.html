@@ -12,7 +12,7 @@
  //var url = "https://bisterco.pythonanywhere.com/pstgr/carros";
  var url = "https://paraio.com/v1/object1s";
  var html='<table border=1>';
- html += '<thead><td>ID</td><td>TITULO</td><td>RESUMO</td><td>ANO</td></thead>';
+ html += '<thead><td>ID</td><td>TITULO</td><td>RESUMO</td><td>ANO</td><td>QTDE GENEROS</td></thead>';
 
 		$.ajax({
 				type : 'GET',
@@ -39,6 +39,7 @@
 						html += '<td>' + value.titulo + '</td>';
 						html += '<td>' + value.resumo + '</td>';
 						html += '<td>' + value.ano + '</td>';
+						html += '<td>' + value.genero + '</td>';
 						html += '</tr>';
 					}
 					html += '</table>';
