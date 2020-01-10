@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script>
+    /* JSON: {
+	  "type": "pagto"
+	  "valor": "939,29",
+	  "tag": "eu",
+	  "dia": 1,
+	  "descricao": "Condomínio"
+	}*/
+      $(function () {
+
+        $('form').on('submit', function (e) {
+
+          e.preventDefault();
+          
+          var tag = $("#tag").val();
+          var descricao = $("#descricao").val();
+          var dia = $("#dia").val();
+          var valor = $("#valor").val();
+
+          var userDetails = {
+            "type": "pagto",
+            "valor" : valor,
+            "tag": tag,
+            "descricao": descricao,
+            "dia": dia
+          };
+
+          $.ajax({
+ 	        url : "https://paraio.com/v1/pagtos",
+	        type : 'post',
+	        headers: { "Authorization": "Anonymous app:dbapp" },
+	        contentType: 'application/json',
+            data:  JSON.stringify(userDetails), //$('form').serialize(),
+            success: function () {
+              alert('form was submitted');
+            }
+          });
+
+        });
+
+      });
+      
+/*
+	        	   type : "object1",
+	               titulo : "TESTE BISTERÇO 3",
+	               resumo: "TESTE POST - acentuação",
+	               ano :'2020'
+
+*/
+    </script>
+  </head>
+  <body>
+    <form>
+      TAG <select id="tag" name="tag">
+  			<option value="eu" selected>Minhas - eu</option>
+  			<option value="pai">PAI</option>
+  	  </select><br>
+      DIA <input name="dia" id="dia"><br>
+      Descricao <input name="descricao" id="descricao"><br>
+      Valor <input name="valor" id="valor"><br>
+      <input name="submit" type="submit" value="Submit">
+    </form>
+  </body>
+</html>

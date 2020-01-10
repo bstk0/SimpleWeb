@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>OBJECT1 - PARAIO</title>
+ <!--
+ <script type = "text/javascript" src = "http://code.jquery.com/jquery-latest.min.js"></script>
+-->
+ <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+ <script type = 'text/javascript'>
+ function cBack(data) { alert(JSON.stringify(data)); }
+ (function($) {
+ //var url = "https://bisterco.pythonanywhere.com/pstgr/carros";
+ var url = "https://paraio.com/v1/pagtos";
+ var html='<table border=1>';
+ html += '<thead><td>TAG</td><td>DIA</td><td>DESCRICAO</td><td>VALOR</td></thead>';
+
+		$.ajax({
+				type : 'GET',
+				url : url,
+				crossDomain : true,
+				headers: { "Authorization": "Anonymous app:dbapp" },
+				timeout: 0,  
+				//async: false,
+				//jsonpCallback: 'cBack',
+				contentType : "application/json",
+				dataType : 'json',
+				success : function(data) {
+					//console.log(data);
+					//console.dir(data.value); //sites);
+					//for(var key in data.emps) {
+					console.log(data.items.length)	
+					for ( var key in data.items) {
+						//var value = data[key];
+						//var value = data.documents[key].fields;
+						var value = data.items[key];
+						//console.log(value);
+						html += '<tr>';
+						html += '<td>' + value.tag + '</td>';
+						html += '<td>' + value.dia + '</td>';
+						html += '<td>' + value.descricao + '</td>';
+						html += '<td>' + value.valor + '</td>';
+						html += '</tr>';
+					}
+					html += '</table>';
+					$(".retorno").append(html);
+
+				},
+				error : function(e) {
+					console.log(e.message);
+				}
+			});
+		})(jQuery);
+	</script>
+</head>
+<body>
+   <h1>PARAIO.COM - object1s - 1GB free</h1>
+   <h2><a href="../">Voltar</a></h2><br>
+   <div class="retorno"></div>
+   <br>
+   <button value="Refresh Page" onClick="window.location.href=window.location.href">REFRESH</button>
+</body>
+</html>
