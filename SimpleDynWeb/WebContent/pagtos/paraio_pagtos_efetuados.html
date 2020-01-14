@@ -9,6 +9,46 @@
  <script type = 'text/javascript'>
  function cBack(data) { alert(JSON.stringify(data)); }
  
+ function AppendPeriodo(data) {
+		//console.log(data);
+		//console.dir(data.value); //sites);
+		//for(var key in data.emps) {
+		console.log(data.items.length)	
+		for ( var key in data.items) {
+			//var value = data[key];
+			//var value = data.documents[key].fields;
+			var value = data.items[key];
+			//console.log(value);
+			$("#tag").append('<option value=' + value.id + '>' + value.periodo + '</option>');
+		}
+}
+	
+
+function getPeriodo() {
+	 var url = "https://paraio.com/v1/periodos";
+
+			$.ajax({
+					type : 'GET',
+					url : url,
+					crossDomain : true,
+					headers: { "Authorization": "Anonymous app:dbapp" },
+					timeout: 0,  
+					//async: false,
+					//jsonpCallback: 'cBack',
+					contentType : "application/json",
+					dataType : 'json',
+					success : function(data) {
+						AppendPeriodo(data);
+					},
+					error : function(e) {
+						console.log(e.message);
+					}
+				});
+	 
+	 
+}
+
+ 
  function AppendResponse(data,html) {
 		//console.log(data);
 		//console.dir(data.value); //sites);
@@ -19,11 +59,19 @@
 			//var value = data.documents[key].fields;
 			var value = data.items[key];
 			//console.log(value);
+			/*
 			html += '<tr>';
 			html += '<td>' + value.id1 + '</td>';
 			html += '<td>' + value.type1 + '</td>';
 			html += '<td>' + value.id2 + '</td>';
 			html += '<td>' + value.type2 + '</td>';
+			html += '</tr>';
+			*/
+			html += '<tr>';
+			html += '<td>' + value.tag + '</td>';
+			html += '<td>' + value.dia + '</td>';
+			html += '<td>' + value.descricao + '</td>';
+			html += '<td>' + value.valor + '</td>';
 			html += '</tr>';
 		}
 		html += '</table>';
@@ -37,12 +85,14 @@ function getAjax(tag) {
 
 	 //var url = "https://bisterco.pythonanywhere.com/pstgr/carros";
 	 //if (tag != null) {
-		 var url = "https://paraio.com/v1/linkers/search?q=id1:1127671583293313024";
+	 //var url = "https://paraio.com/v1/linkers/search?q=id1:1127671583293313024";
+	 var url = "https://paraio.com/v1/periodo/1127671583293313024/links/pagto";
 	 //} else {
 	 //	 var url = "https://paraio.com/v1/pagtos?sort=properties.dia:asc";
 	 //}
 	 var html='<table border=1>';
-	 html += '<thead><td>ID1</td><td>TYPE1</td><td>ID2</td><td>TYPE2</td></thead>';
+	 //html += '<thead><td>ID1</td><td>TYPE1</td><td>ID2</td><td>TYPE2</td></thead>';
+	 html += '<thead><td>TAG</td><td>DIA</td><td>DESCRICAO</td><td>VALOR</td></thead>';
 
 			$.ajax({
 					type : 'GET',
@@ -99,8 +149,10 @@ getAjax('eu');
    <h1>PARAIO.COM - object1s - 1GB free</h1>
    <h2><a href="index.html">Voltar</a></h2><br>
    <select id="tag" name="tag">
+   			<!-- 
   			<option value="eu" selected>Minhas - eu</option>
   			<option value="pai">PAI</option>
+  			 -->
   	</select>
    <div class="retorno"></div>
    <br>
@@ -112,7 +164,9 @@ getAjax('eu');
 		 //$('.tag').on('change', function() {	 
 			 //alert($(this).val());
 			 getAjax($(this).val());
-		 });
+	 });
+		 
+	 getPeriodo();	 	 
    
    });   
    </script>
