@@ -171,7 +171,11 @@ function getListaPagamentosEfetuados() {
 			html += '<td>' + value.descricao + '</td>';
 			html += '<td>' + value.valor + '</td>';
 			//html += '<td>' + oEfetuados.includes(value.id) + '</td>';
-			html += '<td>' + oEfetuados.some(item => item.id === value.id) + '</td>';
+			if (! oEfetuados.some(item => item.id === value.id) ) {
+				html += '<td><button class="somebutton" data-id="' + value.id + '">Add bookmark</button></td>';
+			} else {
+				html += '<td>' + oEfetuados.some(item => item.id === value.id) + '</td>';
+			}
 			html += '</tr>';
 		}
 		html += '</table>';
@@ -247,6 +251,40 @@ teste();
 		 //$('.tag').on('change', function() {	 
 			 //alert($(this).val());
 			 //getAjax($(this).val());
+	 });
+		
+	 //$('button[name="somebutton"]').on('click', function() {
+	 //$('.somebutton').click(function() { 
+	 $(document).on('click', '.somebutton', function () {	 
+		 console.log("click...");
+		 var $this = $(this);
+	     var number = $this.data('id');
+	     alert(number); 
+	     
+	     // make an ajax call
+	     /*
+	        $.ajax({
+	            dataType: 'json',
+	            data: $('#theForm' + number).serialize(),
+	            type: 'POST',
+	            url: "http://localhost:9999/delete",
+	            success: gotAllSuccess,
+	            error: gotAllFailure
+	        });
+	     */
+	     
+	         $.ajax({
+	  	        url : "https://paraio.com/v1/periodo/1127671583293313024/links/" + number,
+	 	        type : 'post',
+	 	        headers: { "Authorization": "Anonymous app:dbapp" },
+	 	        contentType: 'application/json',
+                success: function () {
+	               alert('form was submitted');
+	             }
+	           });
+	     
+	     //refresh page
+	     //location.reload(); 
 	 });
 		 
 	 getPeriodo();	 	 
