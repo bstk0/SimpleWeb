@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script>
+    /* JSON: {
+ 		"type": "recto",
+  		"valor": "950",
+  		"tipoPagamento":"DEPOSITO",
+  		"dia": 2,
+  		"descricao": "Portland - Rio Branco,1236 - apt. 901",
+  		"imovelId":"12",
+	  	"tag":"pai"
+	}
+	*/
+      $(function () {
+
+        $('form').on('submit', function (e) {
+
+          e.preventDefault();
+          
+          var tag = $("#tag").val();
+          var tipoPagamento = $("#tipoPagamento").val();
+          var periodo = $("#periodo").val();
+          var valor = $("#valor").val();
+          var dia = $("#dia").val();
+          var descricao = $("#descricao").val();
+          var imovelId = $("#imovelId").val();
+
+          var userDetails = {
+            "type": "recto",
+            "valor" : valor,
+            "dia": dia,
+            "periodo": periodo,
+            "descricao": descricao,
+            "imovelId":imovelId,
+            "tag":tag,
+            "tipoPagamento":tipoPagamento
+          };
+
+          $.ajax({
+ 	        url : "https://paraio.com/v1/rectos",
+	        type : 'post',
+	        headers: { "Authorization": "Anonymous app:dbapp" },
+	        contentType: 'application/json',
+            data:  JSON.stringify(userDetails), //$('form').serialize(),
+            success: function () {
+              alert('form was submitted');
+            }
+          });
+
+        });
+
+      });
+      
+    </script>
+  </head>
+  <body>
+  <h1>Incluir Recebimentos</h1>
+    <h2><a href="index.html">Voltar</a></h2><br>
+    <form>
+     TAG <select id="tag" name="tag">
+  			<option value="eu" selected>Minhas - eu</option>
+  			<option value="pai">PAI</option>
+  	  </select><br>
+      DIA <input name="dia" id="dia"><br>
+      IMOVEL ID <input name="imovelId" id="imovelId"><br>
+      DESCRICAO <input name="descricao" id="descricao"><br>
+      TIPO PAGAMENTO <select id="tipoPagamento" name="tipoPagamento">
+  			<option value="DEPOSITO" selected>DEPOSITO</option>
+  			<option value="CASH">CASH</option>
+  			<option value="ELO">ELO</option>
+  			<option value="KALU">KALU</option>
+  			<option value="TOCA">TOCA</option>
+  	  </select><br>
+	  VALOR <input name="valor" id="valor"><br><br>
+      <input name="submit" type="submit" value="Submit">
+    </form>
+  </body>
+</html>
