@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script>
+    /* JSON: {
+  "appid": "app:dbapp",
+  "type":"periodo",
+  "periodo": "01/2020",
+  "mes": "01",
+  "ano": "2020"
+	}*/
+      $(function () {
+
+        $('form').on('submit', function (e) {
+
+          e.preventDefault();
+          
+          //var tag = $("#tag").val();
+          var periodo = $("#periodo").val();
+          var mes = $("#mes").val();
+          var ano = $("#ano").val();
+
+          var userDetails = {
+            "type": "periodo",
+            "mes" : mes,
+            "ano": ano,
+            "periodo": periodo
+          };
+
+          $.ajax({
+ 	        url : "https://paraio.com/v1/periodos",
+	        type : 'post',
+	        headers: { "Authorization": "Anonymous app:dbapp" },
+	        contentType: 'application/json',
+            data:  JSON.stringify(userDetails), //$('form').serialize(),
+            success: function () {
+              alert('form was submitted');
+            }
+          });
+
+        });
+
+      });
+      
+    </script>
+  </head>
+  <body>
+  <h1>Incluir Período</h1>
+    <h2><a href="index.html">Voltar</a></h2><br>
+    <form>
+      MES <input name="mes" id="mes"><br>
+      ANO <input name="ano" id="ano"><br>
+      PERIODO <input name="periodo" id="periodo"><br><br>
+      <input name="submit" type="submit" value="Submit">
+    </form>
+  </body>
+</html>

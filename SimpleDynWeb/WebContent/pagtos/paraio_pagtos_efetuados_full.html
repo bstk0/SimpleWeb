@@ -32,13 +32,14 @@
 			//var value = data.documents[key].fields;
 			var value = data.items[key];
 			//console.log(value);
-			$("#periodo").append('<option value=' + value.id + '>' + value.periodo + '</option>');
+			var txtselected = (key == 0 ? " selected" : "");
+			$("#periodo").append('<option value=' + value.id + txtselected + '>' + value.periodo + '</option>');
 		}
 }
 	
 
 function getPeriodo() {
-	 var url = "https://paraio.com/v1/periodos";
+	 var url = "https://paraio.com/v1/periodos?sort=properties.ano:asc,properties.mes:asc";
 
 			$.ajax({
 					type : 'GET',
@@ -98,15 +99,14 @@ function AppendEfetuados(data) {
 	console.log("AppendEfetuados:" + oEfetuados.length);
 }
 		
-function getEfetuados() {
+function getEfetuados(periodo) {
 
 	 //var url = "https://bisterco.pythonanywhere.com/pstgr/carros";
-	 //if (tag != null) {
-	 //var url = "https://paraio.com/v1/linkers/search?q=id1:1127671583293313024";
-	 var url = "https://paraio.com/v1/periodo/1127671583293313024/links/pagto";
-	 //} else {
-	 //	 var url = "https://paraio.com/v1/pagtos?sort=properties.dia:asc";
-	 //}
+	 if (periodo != null) {
+		 var url = "https://paraio.com/v1/periodo/"+periodo+"/links/pagto";
+	 } else {
+		 var url = "https://paraio.com/v1/periodo/1127671583293313024/links/pagto";		 
+	 }
 
 			$.ajax({
 					type : 'GET',
@@ -140,7 +140,7 @@ function AppendPagamentos(data) {
 
 function getPagamentos(tag) {
 	
-	if(tag == null)
+	if(tag == null || typeof tag === 'undefined' || tag == "")
 	 	var url = "https://paraio.com/v1/pagtos?sort=properties.dia:asc";
 	else
      	var url = "https://paraio.com/v1/pagtos/search?q=properties.tag:"+tag+"&sort=properties.dia:asc";
@@ -233,11 +233,25 @@ getPagamentos();
    <button value="Refresh Page" onClick="window.location.href=window.location.href">REFRESH</button>
    <script>
    $(document).ready(function() {
+
+		 $('select[name="periodo"]').on('change', function() {
+			 //$('.tag').on('change', function() {	 
+				 //alert($(this).val());
+				 //getAjax($(this).val());
+				 console.log("periodo id:" + $(this).val());
+				 getEfetuados($(this).val());
+				 getListaPagamentosEfetuados();
+		 });
+  
 	   
 	 $('select[name="tag"]').on('change', function() {
 		 //$('.tag').on('change', function() {	 
 			 //alert($(this).val());
 			 //getAjax($(this).val());
+			 console.log("select.tag:" + $(this).val());
+			 //if ($(this).val() == null) {
+			 //	 getPagamentos();
+			 //}
 			 getPagamentos($(this).val());
 			 getListaPagamentosEfetuados();
 	 });
