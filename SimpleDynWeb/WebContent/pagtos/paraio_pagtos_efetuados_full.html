@@ -276,15 +276,17 @@ teste();
 	         $.ajax({
 	  	        url : "https://paraio.com/v1/periodo/1127671583293313024/links/" + number,
 	 	        type : 'post',
+	 	        async: false,
 	 	        headers: { "Authorization": "Anonymous app:dbapp" },
 	 	        contentType: 'application/json',
                 success: function () {
-	               alert('form was submitted');
+	               //alert('form was submitted');
 	             }
 	           });
 	     
 	     //refresh page
-	     //location.reload(); 
+	     location.reload(); 
+	     //window.location.href=window.location.href;
 	 });
 		 
 	 getPeriodo();	 	 
