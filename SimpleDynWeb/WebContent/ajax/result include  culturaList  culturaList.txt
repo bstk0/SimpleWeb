@@ -1,0 +1,3 @@
+ 	result.include("culturaList",culturaList);
+	result.use(json()).withoutRoot().from(culturaList).serialize();
+ 	result.redirectTo(CulturaController.class).ajaxsearchresult();

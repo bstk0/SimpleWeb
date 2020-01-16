@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>CARROS - AXIOS - PYTHONANYWHERE</title>
+ <!--
+ <script type = "text/javascript" src = "http://code.jquery.com/jquery-latest.min.js"></script>
+ <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+-->
+ <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+ <script type = 'text/javascript'>
+ function cBack(data) { alert(JSON.stringify(data)); }
+
+var url = "http://bisterco.pythonanywhere.com/pstgr/carros";
+var html='<table border=1>';
+
+ axios({
+   method: 'get', // verbo http
+   url: url
+ })
+ .then(response => {
+     //console.log(response)
+     console.dir(response)
+     //showResults (response.data)
+     for(var key in response.data.emps) {
+	 	             //var value = data[key];
+	 	             var value = response.data.emps[key];
+	 	             //var value = emps[key];
+	 	             html+='<tr>';
+	 	             html+='<td>' + value[0] + '</td>';
+	 	             html+='<td>' + value[1] + '</td>';
+	 	             html+='<td>' + value[2] + '</td>';
+	 	             html+='<td>' + value[3] + '</td>';
+	 	             html+='<td>' + value[4] + '</td>';
+	 	             html+='</tr>';
+     }
+     html+='</table>';
+     //$(".retorno").append(html);
+     document.getElementById('results').innerHTML = html;
+ })
+ .catch(error => {
+     console.log(error)
+})
+
+
+ </script>
+</head>
+<body>
+   <h1>Carros - API - Pythonanywhere</h1>
+   <h2><a href="../">Voltar</a></h2><br>
+   <!-- <div class="retorno"></div> -->
+   <div id="results"></div>
+   <br>
+   <button value="Refresh Page" onClick="window.location.href=window.location.href">REFRESH</button>
+</body>
+</html>

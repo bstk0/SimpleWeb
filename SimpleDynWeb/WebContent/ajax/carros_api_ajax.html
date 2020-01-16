@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>CARROS - PYTHONANYWHERE</title>
+ <!--
+ <script type = "text/javascript" src = "http://code.jquery.com/jquery-latest.min.js"></script>
+-->
+ <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+ <script type = 'text/javascript'>
+ function cBack(data) { alert(JSON.stringify(data)); }
+ (function($) {
+ //var url = "https://bisterco.pythonanywhere.com/pstgr/carros";
+ var url = "http://bisterco.pythonanywhere.com/pstgr/carros";
+ var html='<table border=1>';
+ html += '<thead><td>ID</td><td>DESCRICAO</td><td>MODELO</td><td>ANO</td><td>FABRICANTE</td></thead>';
+ $.ajax({
+ type: 'GET',
+ url: url,
+ crossDomain: true,
+ //async: false,
+ //jsonpCallback: 'cBack',
+ contentType: "application/json",
+ dataType: 'json',
+ success: function(data) {
+     console.log(data);
+     console.dir(data.value); //sites);
+     for(var key in data.emps) {
+	             //var value = data[key];
+	             var value = data.emps[key];
+	             html+='<tr>';
+	             html+='<td>' + value[0] + '</td>';
+	             html+='<td>' + value[1] + '</td>';
+	             html+='<td>' + value[2] + '</td>';
+	             html+='<td>' + value[3] + '</td>';
+	             html+='<td>' + value[4] + '</td>';
+	             html+='</tr>';
+     }
+	 html+='</table>';
+     $(".retorno").append(html);
+
+ },
+ error: function(e) { console.log(e.message); }
+ });
+ })(jQuery);
+ </script>
+</head>
+<body>
+   <h1>Carros - API - Pythonanywhere</h1>
+   <h2><a href="../">Voltar</a></h2><br>
+   <div class="retorno"></div>
+   <br>
+   <button value="Refresh Page" onClick="window.location.href=window.location.href">REFRESH</button>
+</body>
+</html>

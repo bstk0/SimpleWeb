@@ -1,0 +1,4 @@
+This is a jQuery $.post demo!
+
+The data is loaded from a text file.
+This may contain HTML elements as well.

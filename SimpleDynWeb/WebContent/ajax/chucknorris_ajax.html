@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Twittering</title>
+ <!--   
+ <script type = "text/javascript" src = "http://code.jquery.com/jquery-latest.min.js"></script>
+-->
+ <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+ <script type = 'text/javascript'>
+ function cBack(data) { alert(JSON.stringify(data)); }
+ (function($) {
+ //var url = "http://search.twitter.com/search.json?q=skiing&rpp=4";
+ //var url = "https://api.twitter.com/1.1/lists/members/show.json?list_id=1130185227375038465&skip_status=true&screen_name=twitterdev";    
+ var url = "https://api.chucknorris.io/jokes/random";    
+ $.ajax({
+ type: 'GET',
+ url: url,
+ //async: false,
+ //jsonpCallback: 'cBack',
+ contentType: "application/json",
+ dataType: 'json',
+ success: function(json) { 
+     console.dir(json.value); //sites); 
+     //$("#retorno").append("<p>"+ json.value + "</p>");
+     //$('#retorno').html("<p>"+ json.value + "</p>");
+     //$("#retorno").append(JSON.stringify(json));
+     //$("#retorno").html($(json).append(json));
+     //$('div#retorno').append(json.value);
+     //$("#retorno").append(json.value);
+     $(".retorno").append(json.value);
+ },
+ error: function(e) { console.log(e.message); }
+ });
+ })(jQuery);
+ </script>
+</head>
+<body>
+   <div class="retorno"></div>
+   <button value="Refresh Page" onClick="window.location.href=window.location.href">REFRESH</button>
+</body>
+</html>

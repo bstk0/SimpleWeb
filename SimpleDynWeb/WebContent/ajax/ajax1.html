@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+<script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script>
+$(document).ready(function(){
+$("#postbtn").click(function(){ 
+
+$.post("posttst.txt",function(postresult){
+    $(".divpost").append(postresult);
+    });
+
+});
+});
+</script>
+
+<style>
+.divpost{
+width:150px;
+height: auto;
+padding:20px;
+background-color:#9C0747;
+color:#fff;
+font-size:20px;
+}
+</style>
+
+</head>
+<body>
+ 
+<h1>A jQuery post demo </h1>
+<h2>https://www.jquery-az.com/jquery/demo.php?ex=21.1_1</h2>    
+<p><button id="postbtn">Click here to load data by Post</button></p>
+<div class="divpost"></div>
+ 
+</body>
+</html>
+
