@@ -18,6 +18,10 @@
 	 return parseFloat(str.replace(',', '.')); 
  }
  
+ function parseMoeda(totalPago) {
+	 return parseFloat(totalPago.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+ }
+ 
  function AppendPeriodo(data) {
 		//console.log(data);
 		//console.dir(data.value); //sites);
@@ -160,10 +164,10 @@ function getPagamentos(tag) {
 				});
 }
 
-function teste() {
-	console.log("teste oPagamentos:" + oPagamentos.length);
-	console.log("testeVal:" + window.testeVal.length);
-}
+//function teste() {
+//	console.log("teste oPagamentos:" + oPagamentos.length);
+//	console.log("testeVal:" + window.testeVal.length);
+//}
 
 function getListaPagamentosEfetuados() {
 	 console.log("getListaPagamentosEfetuados");
@@ -186,13 +190,14 @@ function getListaPagamentosEfetuados() {
 			} else {
 				html += '<td>' + oEfetuados.some(item => item.id === value.id) + '</td>';
 				totalPago += parseNumero(value.valor); 
-				console.log("totalPago:" + totalPago);
+				//console.log("totalPago:" + totalPago);
 			}
 			html += '</tr>';
 		}
 	 	//totalPago
-	 	var arredondado = parseFloat(totalPago.toFixed(2));
-	 	html += '<td colspan=4>TOTAL PAGO</td><td>'+arredondado+'</td>';
+	 	var arredondado = parseMoeda(totalPago);
+
+	 	html += '<td colspan=3>TOTAL PAGO</td><td colspan=2>'+arredondado+'</td>';
 		html += '</table>';
 		//$(".retorno").append(html);	 	 
 		$(".retorno").html(html); 
@@ -200,51 +205,16 @@ function getListaPagamentosEfetuados() {
  }
 	 
 
+// loadind data ....
+
 getEfetuados(); 
  
 getPagamentos(); 
 
-//sleep(1000);
-/*
-console.log(1);
-setTimeout(function(){
-    if(newState == -1){console.log('timeout HAS STOPPED');}
-}, 3000);
-console.log(2);
-*/
-teste();
-
+//teste();
 //getListaPagamentosEfetuados();
- 
 // ---------------------------- 
  
-/* 
- (function($) {	
-
- //var url = "https://bisterco.pythonanywhere.com/pstgr/carros";
- var url = "https://paraio.com/v1/pagtos?sort=properties.dia:asc";
- var html='<table border=1>';
- html += '<thead><td>TAG</td><td>DIA</td><td>DESCRICAO</td><td>VALOR</td></thead>';
-
-		$.ajax({
-				type : 'GET',
-				url : url,
-				crossDomain : true,
-				headers: { "Authorization": "Anonymous app:dbapp" },
-				timeout: 0,  
-				//async: false,
-				//jsonpCallback: 'cBack',
-				contentType : "application/json",
-				dataType : 'json',
-				success : function(data) {
-					AppendResponse(data,html);
-				},
-				error : function(e) {
-					console.log(e.message);
-				}
-			});
-		})(jQuery);
-*/		
 	</script>
 </head>
 <body>
@@ -281,17 +251,6 @@ teste();
 	     alert(number); 
 	     
 	     // make an ajax call
-	     /*
-	        $.ajax({
-	            dataType: 'json',
-	            data: $('#theForm' + number).serialize(),
-	            type: 'POST',
-	            url: "http://localhost:9999/delete",
-	            success: gotAllSuccess,
-	            error: gotAllFailure
-	        });
-	     */
-	     
 	         $.ajax({
 	  	        url : "https://paraio.com/v1/periodo/1127671583293313024/links/" + number,
 	 	        type : 'post',
@@ -311,8 +270,6 @@ teste();
 	 getPeriodo();	 	 
 	 getListaPagamentosEfetuados();
 	 
-	 //teste();
-   
    });   
    </script>
 </body>
