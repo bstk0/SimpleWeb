@@ -13,6 +13,11 @@
  
  function cBack(data) { alert(JSON.stringify(data)); }
  
+ function parseNumero(str) {
+	 if (str == "") str = "0";
+	 return parseFloat(str.replace(',', '.')); 
+ }
+ 
  function AppendPeriodo(data) {
 		//console.log(data);
 		//console.dir(data.value); //sites);
@@ -163,6 +168,7 @@ function getListaPagamentosEfetuados() {
 	 //html += '<thead><td>ID1</td><td>TYPE1</td><td>ID2</td><td>TYPE2</td></thead>';
 	 html += '<thead><td>TAG</td><td>DIA</td><td>DESCRICAO</td><td>VALOR</td><td>REALIZADO</td></thead>';
 	 console.log("getListaPagamentosEfetuados:"+oPagamentos.length);
+	 var totalPago = 0;
 	 for ( var key in oPagamentos) {
 		 var value = oPagamentos[key];
 			html += '<tr>';
@@ -175,9 +181,14 @@ function getListaPagamentosEfetuados() {
 				html += '<td><button class="somebutton" data-id="' + value.id + '">Add bookmark</button></td>';
 			} else {
 				html += '<td>' + oEfetuados.some(item => item.id === value.id) + '</td>';
+				totalPago += parseNumero(value.valor); 
+				console.log("totalPago:" + totalPago);
 			}
 			html += '</tr>';
 		}
+	 	//totalPago
+	 	var arredondado = parseFloat(totalPago.toFixed(2));
+	 	html += '<td colspan=4>TOTAL PAGO</td><td>'+arredondado+'</td>';
 		html += '</table>';
 		//$(".retorno").append(html);	 	 
 		$(".retorno").html(html); 
