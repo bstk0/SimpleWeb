@@ -28,7 +28,7 @@
 			//var value = data.documents[key].fields;
 			var value = data.items[key];
 			//console.log(value);
-			$("#tag").append('<option value=' + value.id + '>' + value.periodo + '</option>');
+			$("#periodo").append('<option value=' + value.id + '>' + value.periodo + '</option>');
 		}
 }
 	
@@ -134,9 +134,13 @@ function AppendPagamentos(data) {
 	console.log("AppendPagamentos:" + oPagamentos.length );
 }
 
-function getPagamentos() {
-	 var url = "https://paraio.com/v1/pagtos?sort=properties.dia:asc";
-
+function getPagamentos(tag) {
+	
+	if(tag == null)
+	 	var url = "https://paraio.com/v1/pagtos?sort=properties.dia:asc";
+	else
+     	var url = "https://paraio.com/v1/pagtos/search?q=properties.tag:"+tag+"&sort=properties.dia:asc";
+	
 			$.ajax({
 					type : 'GET',
 					url : url,
@@ -246,12 +250,14 @@ teste();
 <body>
    <h1>PARAIO.COM - object1s - 1GB free</h1>
    <h2><a href="index.html">Voltar</a></h2><br>
+   <select id="periodo" name="periodo">
+   </select>
+   &emsp;
    <select id="tag" name="tag">
-   			<!-- 
-  			<option value="eu" selected>Minhas - eu</option>
+   			<option value="" selected>- ALL -</option>
+  			<option value="eu">Minhas - eu</option>
   			<option value="pai">PAI</option>
-  			 -->
-  	</select>
+   </select>
    <div class="retorno"></div>
    <br>
    <button value="Refresh Page" onClick="window.location.href=window.location.href">REFRESH</button>
@@ -262,6 +268,8 @@ teste();
 		 //$('.tag').on('change', function() {	 
 			 //alert($(this).val());
 			 //getAjax($(this).val());
+			 getPagamentos($(this).val());
+			 getListaPagamentosEfetuados();
 	 });
 		
 	 //$('button[name="somebutton"]').on('click', function() {
