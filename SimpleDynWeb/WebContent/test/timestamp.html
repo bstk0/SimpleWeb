@@ -28,6 +28,10 @@ function formatRetornoDataFull(p) {
 	        p.getFullYear() + ' ' + p.getHours()+':'+p.getMinutes()+':'+p.getSeconds();
 }
 
+function formatTimestamp(ts) {
+	var p1 = new Date(ts);
+	return formatRetornoData(p1);
+}
 
 var d = new Date(1446469779546); 	//1382086394000);
 
@@ -64,6 +68,9 @@ var p1 = new Date(1578664645266);
 appDiv.innerHTML += 'Timestamp from Paraio 2 [1578664645266]:' + formatRetornoData(p1) + '<br>';
 //formatRetornoDataFull
 appDiv.innerHTML += 'Timestamp from Paraio 2 [1578664645266]:' + formatRetornoDataFull(p1) + '<br>';
+
+//formatTimestamp - 1504095567183 -> expected output "8/30/2017"
+appDiv.innerHTML += 'formatTimestamp [1504095567183] expected output 8/30/2017:' + formatTimestamp(1504095567183) + '<br>';
 
 </script>
 
