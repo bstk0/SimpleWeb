@@ -6,6 +6,7 @@
  <script type = "text/javascript" src = "http://code.jquery.com/jquery-latest.min.js"></script>
 -->
  <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+ <script type = "text/javascript" src = "../js/formatTimestamp.js"></script>
  <script type = 'text/javascript'>
  
  var oEfetuados; //= new Object();
@@ -188,7 +189,10 @@ function getListaPagamentosEfetuados() {
 			if (! oEfetuados.some(item => item.id === value.id) ) {
 				html += '<td><button class="somebutton" data-id="' + value.id + '">Add bookmark</button></td>';
 			} else {
-				html += '<td>' + oEfetuados.some(item => item.id === value.id) + '</td>';
+				//html += '<td>' + oEfetuados.some(item => item.id === value.id) + '</td>';
+				
+				var oEfetuadoIndex =  oEfetuados.findIndex(item => item.id === value.id);
+				html += '<td>' + formatTimestamp(oEfetuados[oEfetuadoIndex].timestamp) + '</td>';
 				totalPago += parseNumero(value.valor); 
 				//console.log("totalPago:" + totalPago);
 			}
