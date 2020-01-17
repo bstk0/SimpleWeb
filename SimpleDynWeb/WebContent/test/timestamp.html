@@ -1,0 +1,70 @@
+<html>
+
+<div id="app"></div>
+
+<script>
+
+function toTimestamp(strDate){
+    var datum = Date.parse(strDate);
+    return datum/1000;
+}
+
+function toTimestamp(year,month,day,hour,minute,second){
+    var datum = new Date(Date.UTC(year,month-1,day,hour,minute,second));
+    return datum.getTime()/1000;
+   }
+
+function formatRetornoData(p) {
+	//return p.getDate() + '/' + (p.getMonth()+1) + '/' + p.getFullYear();
+	return  ("0" + p.getDate()).slice(-2) + '/' +
+	        ("0" + (p.getMonth() + 1)).slice(-2) + '/' +
+	        p.getFullYear();
+}
+
+function formatRetornoDataFull(p) {
+	//return p.getDate() + '/' + (p.getMonth()+1) + '/' + p.getFullYear();
+	return  ("0" + p.getDate()).slice(-2) + '/' +
+	        ("0" + (p.getMonth() + 1)).slice(-2) + '/' +
+	        p.getFullYear() + ' ' + p.getHours()+':'+p.getMinutes()+':'+p.getSeconds();
+}
+
+
+var d = new Date(1446469779546); 	//1382086394000);
+
+//alert(d.getDate() + '/' + (d.getMonth()+1) + '/' + d.getFullYear());
+
+//Write Javascript code!
+const appDiv = document.getElementById('app');
+appDiv.innerHTML = '<h1>JS Starter</h1>';
+
+appDiv.innerHTML += 'Data:' + d.getDate() + '/' + (d.getMonth()+1) + '/' + d.getFullYear() + '<br>';
+appDiv.innerHTML += 'new Data:' + new Date() + '<br>';
+//.getTime()
+appDiv.innerHTML += '[*] new Data.getTime():' + new Date().getTime() + '<br>';
+
+//current timestamp
+var b = new Date();
+var bts = toTimestamp(b.getFullYear(),b.getMonth(),b.getDate(),b.getHours(),b.getMinutes(),b.getSeconds());
+
+appDiv.innerHTML += 'new Data to Timestamp:' + bts + '<br>';
+//1579267230 - 1576578540
+
+var t = new Date(new Date().getTime()) ;//1579268087595); // * 1000);
+
+appDiv.innerHTML += 'Timestamp [*]:' + t.getDate() + '/' + (t.getMonth()+1) + '/' + t.getFullYear() + '<br>';
+//formatRetornoDataFull
+appDiv.innerHTML += 'Timestamp [*] formatRetornoDataFull:' + formatRetornoDataFull(t) + '<br>';
+
+//from Paraio: 1579261333798
+var p = new Date(1579182982172);
+appDiv.innerHTML += 'Timestamp from Paraio [1579182982172]:' + p.getDate() + '/' + (p.getMonth()+1) + '/' + p.getFullYear() + '<br>';
+
+//from Paraio: 1578664645266
+var p1 = new Date(1578664645266);
+appDiv.innerHTML += 'Timestamp from Paraio 2 [1578664645266]:' + formatRetornoData(p1) + '<br>';
+//formatRetornoDataFull
+appDiv.innerHTML += 'Timestamp from Paraio 2 [1578664645266]:' + formatRetornoDataFull(p1) + '<br>';
+
+</script>
+
+</html>
