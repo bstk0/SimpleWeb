@@ -4,7 +4,8 @@
 
 <script>
 
-function toTimestamp(strDate){
+function toTimestamp1(strDate){
+	console.log("toTimestamp - strDate:" + strDate);
     var datum = Date.parse(strDate);
     return datum/1000;
 }
@@ -31,6 +32,11 @@ function formatRetornoDataFull(p) {
 function formatTimestamp(ts) {
 	var p1 = new Date(ts);
 	return formatRetornoData(p1);
+}
+
+function formatTimestampFull(ts) {
+	var p1 = new Date(ts);
+	return formatRetornoDataFull(p1);
 }
 
 var d = new Date(1446469779546); 	//1382086394000);
@@ -71,7 +77,13 @@ appDiv.innerHTML += 'Timestamp from Paraio 2 [1578664645266]:' + formatRetornoDa
 
 //formatTimestamp - 1504095567183 -> expected output "8/30/2017"
 appDiv.innerHTML += 'formatTimestamp [1504095567183] expected output 8/30/2017:' + formatTimestamp(1504095567183) + '<br>';
-
+appDiv.innerHTML += '---------------<br>';
+//var ts1 = toTimestamp1('01/21/2020 10:00:00');
+var ts1 = new Date('01/07/2020 10:10:00').getTime();
+appDiv.innerHTML += 'new Date("01/21/2020 10:10:00").getTime() - mm/dd/yyyy - expected output :' + ts1 + '<br>';
+appDiv.innerHTML += 'formatTimestamp - Timestamp from Paraio 2 ['+ts1+']:' + formatTimestamp(ts1) + '<br>';
+appDiv.innerHTML += 'formatTimestampFull - Timestamp from Paraio 2 ['+ts1+']:' + formatTimestampFull(ts1) + '<br>';
+appDiv.innerHTML += '---------------<br>';
 </script>
 
 </html>
