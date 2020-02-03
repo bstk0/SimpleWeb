@@ -156,7 +156,7 @@ function postRecebimentosCompl(periodo,recto) {
 */
 
 var valorReal = $("#valorReal").val();
-var dataReal = new Date($("#dataReal").val()).getTime();
+var dataReal = new Date($("#dataReal").val() + " 09:00:00").getTime();
 
 var recebimentosComplJ = {
   "type": "rectocompl",
@@ -313,7 +313,7 @@ getRecebimentoCompl();
    <div class="retorno"></div>
    <div class="complemento">
    		<br>
-   		DATA REAL  <input name="dataReal" id="dataReal">[mm/dd/yyyy hh:mi:ss]<br>
+   		DATA REAL  <input name="dataReal" id="dataReal">[mm/dd/yyyy]<br>
         VALOR REAL <input name="valorReal" id="valorReal"><br>
    </div>
    <br>
@@ -352,27 +352,35 @@ getRecebimentoCompl();
 		 console.log("click...");
 		 var $this = $(this);
 	     var number = $this.data('id');
+	     var valorReal = $("#valorReal").val();
+	     var dataReal = $("#dataReal").val();
 	     alert(number); 
-	     
-	     // make an ajax call
-	         $.ajax({
-	  	        //url : "https://paraio.com/v1/periodo/1127671583293313024/links/" + number,
-	  	        url : "https://paraio.com/v1/periodo/" + periodoId + "/links/" + number,
-	 	        type : 'post',
-	 	        async: false,
-	 	        headers: { "Authorization": "Anonymous app:dbapp" },
-	 	        contentType: 'application/json',
-                success: function () {
-	               //alert('form was submitted');
-	             }
-	           });
-	     
-	     //RecebimentosCompl
-	     postRecebimentosCompl(periodoId,number);
-	     
-	     //refresh page
-	     location.reload(); 
-	     //window.location.href=window.location.href;
+	     console.log("valorReal:" + valorReal);
+	     console.log("dataReal :" + dataReal );
+	     if (valorReal == "" || (dataReal == "NaN" || dataReal == "" )) {
+	    	 alert("Informe Data Real e Valor Real");
+	     } else {
+	    	 //dataReal = new Date($("#dataReal").val() + " 09:00:00").getTime();
+		     // make an ajax call
+		         $.ajax({
+		  	        //url : "https://paraio.com/v1/periodo/1127671583293313024/links/" + number,
+		  	        url : "https://paraio.com/v1/periodo/" + periodoId + "/links/" + number,
+		 	        type : 'post',
+		 	        async: false,
+		 	        headers: { "Authorization": "Anonymous app:dbapp" },
+		 	        contentType: 'application/json',
+	                success: function () {
+		               //alert('form was submitted');
+		             }
+		           });
+		     
+		     //RecebimentosCompl
+		     postRecebimentosCompl(periodoId,number);
+		     
+		     //refresh page
+		     location.reload(); 
+		     //window.location.href=window.location.href;
+	     }
 	 });
 		 
 	 getPeriodo();	 	 
