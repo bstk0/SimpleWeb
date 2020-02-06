@@ -11,6 +11,8 @@
  
  var oEfetuados; //= new Object();
  var oPagamentos; //= new Object(); ;
+ var oPagamentosCompl; //06.02.20
+ var periodoId = "1127671583293313024"; 
  
  function cBack(data) { alert(JSON.stringify(data)); }
  
@@ -105,6 +107,7 @@ function getEfetuados(periodo) {
 	 //var url = "https://bisterco.pythonanywhere.com/pstgr/carros";
 	 if (periodo != null) {
 		 var url = "https://paraio.com/v1/periodo/"+periodo+"/links/pagto";
+		 periodoId = periodo;
 	 } else {
 		 var url = "https://paraio.com/v1/periodo/1127671583293313024/links/pagto";		 
 	 }
@@ -130,6 +133,76 @@ function getEfetuados(periodo) {
 		
 }
  
+//------ oPagamentosCompl - INICIO
+
+function AppendPagamentosCompl(data) {
+	//console.log("AppendEfetuados..");
+	oPagamentosCompl = data.items;
+	console.log("AppendPagamentosCompl:" + oPagamentosCompl.length);
+}
+		
+function getPagamentosCompl(periodo) {
+	 console.log("getPagamentosCompl ...");
+	 //var url = "https://bisterco.pythonanywhere.com/pstgr/carros";
+	 if (periodo != null) {
+		 var url = "https://paraio.com/v1/pagtocompls?q="+periodo;
+	 } else {
+		 var url = "https://paraio.com/v1/pagtocompls?q=1127671583293313024";		 
+	 }
+
+			$.ajax({
+					type : 'GET',
+					url : url,
+					crossDomain : true,
+					headers: { "Authorization": "Anonymous app:dbapp" },
+					timeout: 0,  
+					async: false,
+					//jsonpCallback: 'cBack',
+					contentType : "application/json",
+					dataType : 'json',
+					success : function(data) {
+						AppendPagamentosCompl(data);
+					},
+					error : function(e) {
+						console.log(e.message);
+					}
+				});
+		
+}
+
+function postPagamentosCompl(periodo,pagto) {
+	
+	var complId = "periodo:"+ periodo + ":pagto:" + pagto;
+	
+var valorReal = $("#valorReal").val();
+var dataReal = new Date($("#dataReal").val() + " 09:00:00").getTime();
+
+var pagamentosComplJ = {
+  "type": "pagtocompl",
+  "parentid" : complId,
+  "valorReal" : valorReal,
+  "dataReal": dataReal,
+  "periodo": periodo,
+};
+	
+    $.ajax({
+	        //url : "https://paraio.com/v1/periodo/1127671583293313024/links/" + number,
+	        url : "https://paraio.com/v1/pagtocompls/", // + periodoId + "/links/" + number,
+	        type : 'post',
+	        async: false,
+	        headers: { "Authorization": "Anonymous app:dbapp" },
+	        contentType: 'application/json',
+	        data:  JSON.stringify(pagamentosComplJ),
+        success: function () {
+           alert('form was submitted');
+         }
+       });
+	
+}
+
+
+//------ oRecebimentosCompl - FIM
+
 
 
 function AppendPagamentos(data) {
@@ -175,9 +248,11 @@ function getListaPagamentosEfetuados() {
 	 $(".retorno").html('');
 	 var html='<table border=1>';
 	 //html += '<thead><td>ID1</td><td>TYPE1</td><td>ID2</td><td>TYPE2</td></thead>';
-	 html += '<thead><td>TAG</td><td>DIA</td><td>DESCRICAO</td><td>VALOR</td><td>REALIZADO</td></thead>';
+	 //html += '<thead><td>TAG</td><td>DIA</td><td>DESCRICAO</td><td>VALOR</td><td>REALIZADO</td></thead>';
+ 	 html += '<thead><td>TAG</td><td>DIA</td><td>DESCRICAO</td><td>VALOR</td><td>REALIZADO</td><td>VALOR REAL</td><td>DATA REAL</td></thead>';
 	 console.log("getListaPagamentosEfetuados:"+oPagamentos.length);
 	 var totalPago = 0;
+	 var totalRealPago = 0;
 	 for ( var key in oPagamentos) {
 		 var value = oPagamentos[key];
 			html += '<tr>';
@@ -188,11 +263,28 @@ function getListaPagamentosEfetuados() {
 			//html += '<td>' + oEfetuados.includes(value.id) + '</td>';
 			if (! oEfetuados.some(item => item.id === value.id) ) {
 				html += '<td><button class="somebutton" data-id="' + value.id + '">Add bookmark</button></td>';
+				html += '<td>&nbsp;</td><td>&nbsp;</td>';
 			} else {
-				//html += '<td>' + oEfetuados.some(item => item.id === value.id) + '</td>';
 				
+				html += '<td>' + oEfetuados.some(item => item.id === value.id) + '</td>';
+
 				var oEfetuadoIndex =  oEfetuados.findIndex(item => item.id === value.id);
-				html += '<td>' + formatTimestamp(oEfetuados[oEfetuadoIndex].timestamp) + '</td>';
+				
+				var complId = "periodo:"+ periodoId + ":pagto:" + value.id;
+				
+				console.log("complId:" + complId);
+				
+				var pagamentoComplIndex = oPagamentosCompl.findIndex(item => item.parentid === complId);
+				
+				//console.log()
+				
+				if (pagamentoComplIndex >= 0) {
+					console.log("Valor Real:" + oPagamentosCompl[pagamentoComplIndex].valorReal);
+					totalRealPago += parseNumero(oPagamentosCompl[pagamentoComplIndex].valorReal);
+					html += '<td>' + oPagamentosCompl[pagamentoComplIndex].valorReal + '</td>';
+					html += '<td>' + formatTimestamp(oPagamentosCompl[pagamentoComplIndex].dataReal) + '</td>';
+				}
+							
 				totalPago += parseNumero(value.valor); 
 				//console.log("totalPago:" + totalPago);
 			}
@@ -200,8 +292,11 @@ function getListaPagamentosEfetuados() {
 		}
 	 	//totalPago
 	 	var arredondado = parseMoeda(totalPago);
+	 	var arredondadoReal = parseMoeda(totalRealPago);
 
-	 	html += '<td colspan=3>TOTAL PAGO</td><td colspan=2>'+arredondado+'</td>';
+	 	html += '<td colspan=3>TOTAL PAGO</td><td>'+arredondado+'</td>';
+		html += '<td>&nbsp;</td>';
+		html += '<td>'+arredondadoReal+'</td><td>&nbsp;</td>';
 		html += '</table>';
 		//$(".retorno").append(html);	 	 
 		$(".retorno").html(html); 
@@ -215,6 +310,8 @@ getEfetuados();
  
 getPagamentos(); 
 
+getPagamentosCompl();
+
 //teste();
 //getListaPagamentosEfetuados();
 // ---------------------------- 
@@ -222,7 +319,7 @@ getPagamentos();
 	</script>
 </head>
 <body>
-   <h1>PARAIO.COM - object1s - 1GB free</h1>
+   <h1>PARAIO.COM - Pagtos Efetuados FULL - 1GB free</h1>
    <h2><a href="index.html">Voltar</a></h2><br>
    <select id="periodo" name="periodo">
    </select>
@@ -233,6 +330,11 @@ getPagamentos();
   			<option value="pai">PAI</option>
    </select>
    <div class="retorno"></div>
+   <div class="complemento">
+   		<br>
+   		DATA REAL  <input name="dataReal" id="dataReal">[mm/dd/yyyy]<br>
+        VALOR REAL <input name="valorReal" id="valorReal"><br>
+   </div>
    <br>
    <button value="Refresh Page" onClick="window.location.href=window.location.href">REFRESH</button>
    <script>
@@ -244,6 +346,7 @@ getPagamentos();
 				 //getAjax($(this).val());
 				 console.log("periodo id:" + $(this).val());
 				 getEfetuados($(this).val());
+				 getPagamentosCompl($(this).val());
 				 getListaPagamentosEfetuados();
 		 });
   
@@ -281,6 +384,9 @@ getPagamentos();
 	               //alert('form was submitted');
 	             }
 	           });
+	     
+		 //PagamentosCompl
+		 postPagamentosCompl(periodoId,number);
 	     
 	     //refresh page
 	     location.reload(); 
