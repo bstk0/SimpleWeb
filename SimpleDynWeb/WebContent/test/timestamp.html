@@ -80,10 +80,20 @@ appDiv.innerHTML += 'formatTimestamp [1504095567183] expected output 8/30/2017:'
 appDiv.innerHTML += '---------------<br>';
 //var ts1 = toTimestamp1('01/21/2020 10:00:00');
 var ts1 = new Date('01/07/2020 10:10:00').getTime();
-appDiv.innerHTML += 'new Date("01/21/2020 10:10:00").getTime() - mm/dd/yyyy - expected output :' + ts1 + '<br>';
+appDiv.innerHTML += 'new Date("01/07/2020 10:10:00").getTime() - mm/dd/yyyy - expected output :' + ts1 + '<br>';
 appDiv.innerHTML += 'formatTimestamp - Timestamp from Paraio 2 ['+ts1+']:' + formatTimestamp(ts1) + '<br>';
 appDiv.innerHTML += 'formatTimestampFull - Timestamp from Paraio 2 ['+ts1+']:' + formatTimestampFull(ts1) + '<br>';
 appDiv.innerHTML += '---------------<br>';
+var ts2 = new Date('01/19/2020 10:00:00').getTime();
+appDiv.innerHTML += 'new Date("01/19/2020 10:00:00").getTime() - mm/dd/yyyy - expected output :' + ts2 + '<br>';
+appDiv.innerHTML += '--------------- ATUAL ----<br>';
+var ta = new Date().getTime() ;
+appDiv.innerHTML += '[*] ATUAL - new Data.getTime():' + ta + '<br>';
+appDiv.innerHTML += 'formatTimestamp - Timestamp from Paraio 2 ['+ta+']:' + formatTimestamp(ta) + '<br>';
+appDiv.innerHTML += 'formatTimestampFull - Timestamp from Paraio 2 ['+ta+']:' + formatTimestampFull(ta) + '<br>';
+appDiv.innerHTML += '---------------<br>';
+
+
 </script>
 
 </html>
