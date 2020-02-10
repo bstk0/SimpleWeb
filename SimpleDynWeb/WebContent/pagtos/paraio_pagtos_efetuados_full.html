@@ -7,6 +7,7 @@
 -->
  <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
  <script type = "text/javascript" src = "../js/formatTimestamp.js"></script>
+ <script type = "text/javascript" src = "../js/mylib.js"></script>
  <script type = 'text/javascript'>
  
  var oEfetuados; //= new Object();
@@ -29,13 +30,19 @@
 		//console.log(data);
 		//console.dir(data.value); //sites);
 		//for(var key in data.emps) {
-		console.log("AppendPeriodo:"+data.items.length)	
+		console.log("AppendPeriodo:"+data.items.length)
+		console.log("GetURLParameter(periodo):" + GetURLParameter('periodo'));
+		var qsPeriodo = GetURLParameter('periodo');
 		for ( var key in data.items) {
 			//var value = data[key];
 			//var value = data.documents[key].fields;
 			var value = data.items[key];
 			//console.log(value);
-			var txtselected = (key == 0 ? " selected" : "");
+			if (qsPeriodo != "")
+				var txtselected = (value.id == qsPeriodo ?  " selected" : "");
+			else
+				var txtselected = (key == 0 ?  " selected" : "");
+			
 			$("#periodo").append('<option value=' + value.id + txtselected + '>' + value.periodo + '</option>');
 		}
 }
@@ -109,7 +116,13 @@ function getEfetuados(periodo) {
 		 var url = "https://paraio.com/v1/periodo/"+periodo+"/links/pagto";
 		 periodoId = periodo;
 	 } else {
-		 var url = "https://paraio.com/v1/periodo/1127671583293313024/links/pagto";		 
+		 var qsPeriodo = GetURLParameter('periodo');
+	 	 if (qsPeriodo != null) {
+			 var url = "https://paraio.com/v1/periodo/"+qsPeriodo+"/links/pagto";
+			 periodoId = qsPeriodo;
+	 	 } else {
+			 var url = "https://paraio.com/v1/periodo/1127671583293313024/links/pagto";		 
+	 	 }
 	 }
 
 			$.ajax({
@@ -213,7 +226,7 @@ function AppendPagamentos(data) {
 }
 
 function getPagamentos(tag) {
-	
+	console.log("getPagamentos.tag:"+tag);
 	if(tag == null || typeof tag === 'undefined' || tag == "")
 	 	var url = "https://paraio.com/v1/pagtos?sort=properties.dia:asc";
 	else
