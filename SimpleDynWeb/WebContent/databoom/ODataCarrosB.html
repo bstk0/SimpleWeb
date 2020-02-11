@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!--<title>SAP OData in SAPUI5 - SKYVIA</title>-->
+  <!-- Fonte : https://blogs.sap.com/2013/07/12/sapui5-curd-gw/ -->
+  <!-- Load SAPUI5, select theme and control library -->
+  
+  <script src="https://sapui5.hana.ondemand.com/resources/sap-ui-core.js"
+    id="sap-ui-bootstrap"
+    type="text/javascript"
+    data-sap-ui-libs="sap.ui.commons,sap.ui.table,sap.m"
+    data-sap-ui-xx-bindingSyntax="complex"
+    data-sap-ui-theme="sap_belize"></script>
+  <!-- tema "sap_platinum" parou de funcionar -->
+
+  <script>
+  function onBack() {
+/*  var oHistory = History.getInstance();
+  var sPreviousHash = oHistory.getPreviousHash();
+  if (sPreviousHash !== undefined) {
+  window.history.go(-1);
+  } else {
+  var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+  oRouter.navTo("overview", true);
+  }
+*/  
+   window.location.replace("/");
+  }
+  
+  //v4 - "https://connect.skyvia.com/27xdg80w/";
+  //v3 - https://connect.skyvia.com/qvzdrz0n/
+  //     proxy/https/connect.skyvia.com/qvzdrz0n/
+  //var sServiceUrl = "https://cors-anywhere.herokuapp.com/https://connect.skyvia.com/qvzdrz0n/";
+  			//var sCORSProxy = "http://cors-proxy.htmldriven.com/?url=";
+  			//var sCORSProxy = "https://cors-anywhere.herokuapp.com/";
+  			//var sCORSProxy = "https://crossorigin.me/";
+  			//var sCORSProxy = "https://anyorigin.com/go?url=";
+			//var sServiceUrl = sCORSProxy + "https://connect.skyvia.com/qvzdrz0n/";
+			//var sServiceUrl = "https://anyorigin.com/go?url=https://connect.skyvia.com/qvzdrz0n/";
+	//sem CORS
+	//var sServiceUrl = "https://connect.skyvia.com/qvzdrz0n/";
+    //var sServiceUrl = "https://connect.skyvia.com/37ngk3vo/";
+	//var sServiceUrl = "https://t846.databoom.space/api1/b846/collections/Carros/value";
+	var sServiceUrl = "https://t846.databoom.space/api1/b846/collections/Carros";
+	var sServiceUrlPOST = "https://t846.databoom.space/api1/b846/collections/Carros";
+	
+	//INIT - inicio
+	
+	
+	//INIT - fim
+
+	//TOTAL - inicio
+    var gTotal = 0;
+    function initTotal(nrTotal) { gTotal = nrTotal; updateTotal(gTotal); };	
+    function addTotal() { gTotal++; updateTotal(gTotal); } ;
+    function delTotal() { gTotal--; updateTotal(gTotal); } ;
+	
+	function updateTotal(nrTotal) {
+	  	lblTotal.setText("TOTAL: " + nrTotal);
+	 }
+	//TOTAL - fim
+	 
+	
+  function updater(oTable) {
+  
+	  var oDialog1 = new sap.ui.commons.Dialog();
+	  oDialog1.setTitle("Update Dialog");
+	  var ustring = oTable.getContextByIndex(oTable.getSelectedIndices());
+	  //sap.m.MessageToast.show(oTable.getSelectedItem());
+	  var kstring = escape(ustring).replace("%28%27","(\'").replace("%27%29","\')");
+	  console.log("kstring:" + kstring);
+	  var binstring = "{"+ustring+"/NOME}";
+	  var binStringModelo = "{"+ustring+"/MODELO}";
+	  sap.m.MessageToast.show(binstring);
+	   
+	  var oLabel = new sap.ui.commons.Label({text: "Nome"});
+	  var oTextField = new sap.ui.commons.TextField({
+	      value: binstring  });
+	
+	  var oLabelModelo = new sap.ui.commons.Label({text: "Modelo"});
+	  var oTextFieldModelo = new sap.ui.commons.TextField({
+	      value: binStringModelo  });
+
+	  //oDialog1.addContent(oLabel);
+	  //oDialog1.addContent(oTextField);
+	  
+	  var oMatrix = new sap.ui.commons.layout.MatrixLayout();
+	   //oMatrix.createRow(oLabelAgency, oTextFieldAgency);
+	   oMatrix.createRow(oLabel, oTextField);
+	   oMatrix.createRow(oLabelModelo, oTextFieldModelo);
+	   oDialog1.addContent(oMatrix);
+	  
+	  oDialog1.addButton(new sap.ui.commons.Button({text: "Update", press:function(){ 
+	  	var carId = oModel.getProperty('id',ustring,null);
+	  	var oEntry = {};
+	  	    //oEntry.id = oModel.getId();
+	  	    oEntry.id = oModel.getProperty('id',ustring,null);
+	        oEntry.ID_CARRO = oModel.getProperty('ID_CARRO',ustring,null);
+	        oEntry.NOME = oTextField.getValue();
+	        oEntry.MODELO = oTextFieldModelo.getValue();
+	     
+	 $.ajaxSetup({
+		cache: false });
+
+	jQuery.ajax({
+		url: sServiceUrl+"('" + carId + "')", //putURL,
+		async: true,
+		dataType: 'json',
+		cache: false,
+		data: JSON.stringify(oEntry),
+		contentType: "application/json",
+		type: "PUT",
+		//beforeSend: function(xhr) {
+		//	xhr.setRequestHeader("X-CSRF-Token", token); },
+		success: function(odata, textStatus, XMLHttpRequest) {
+			//alert("OK");
+			sap.m.MessageToast.show("CAR updated Successfully");
+	},
+	error: function() {
+		//alert("Error Put")
+		new sap.m.MessageToast.show("Error while updating the CAR");
+	} });    
+	        
+	   //actionontable("Update",kstring,oEntry);
+	   //actionontable("Update","/Carros",oEntry);
+	   oDialog1.close();}}));
+	  
+	  oDialog1.addButton(new sap.ui.commons.Button({text: "Cancel", press:function(){oDialog1.close();}}));
+	  
+	  oDialog1.open();
+ };
+ 
+	 function deleter(oTable) {
+	    
+	  var oDialog1 = new sap.ui.commons.Dialog();
+	  oDialog1.setTitle("Delete Dialog");
+	  var rowIndex = oTable.getSelectedIndices();
+	  var ustring = oTable.getContextByIndex(oTable.getSelectedIndices());
+	  var kstring = escape(ustring).replace("%28%27","(\'").replace("%27%29","\')");
+	 
+	  var rowId = oModel.getProperty('id',ustring,null);
+	  var agencynum = oModel.getProperty('NOME',ustring,null);
+	        var oTextLabel = new sap.ui.commons.Label({
+	      text: "Delete Record with Carros# "+agencynum
+	  });
+	  
+	        
+	   oDialog1.addContent(oTextLabel);
+	  
+	   oDialog1.addButton(new sap.ui.commons.Button({text: "Delete", press:function(){ 
+	  	var carId = oModel.getProperty('id',ustring,null);
+			 $.ajax({
+				    url: sServiceUrl+"('" + carId + "')", //putURL,
+				    type: 'DELETE',
+				    success: function() {
+				    	sap.m.MessageToast.show("Successfully Deleted");
+				    	//sap.ui.getCore().byId("table").getModel().refresh(true);
+				    	//oModel.refresh();
+				    	//oTable.getModel().refresh(true);
+				    	delTotal();
+				    	},
+				    error: function () {
+				    	new sap.m.MessageToast.show("Error occured while deleting");
+				    		}
+				}).done(function(data) {
+					console.log("DELETE.data:" + data);
+					var oData = oModel.getData() ;
+					
+					//test ... FAZER UM FOR COMPARANDO POR ID ... OK
+					var nrDelete = 0;
+					for(var i = 0; i < oData.d.results.length; i++){
+						if (oData.d.results[i].id == rowId) {
+							oData.d.results.splice(i,1);
+							nrDelete++;
+						}
+    				}
+					if (nrDelete == 0) {
+						new sap.m.MessageToast.show("Error occured while refresh table");
+					} else {
+						//delTotal();
+	    				oModel.setData(oData) ;
+	    				oModel.refresh();
+					}
+				}).fail(function(error) {
+					reject();
+				});
+
+	   //actionontable("Delete",kstring,null);
+	   oDialog1.close();
+	   }}));
+	  
+	  oDialog1.addButton(new sap.ui.commons.Button({text: "Cancel", press:function(){oDialog1.close();}}));
+	  
+	  oDialog1.open();
+	 };
+ 
+  function creater(oTable) {
+    
+   var oDialog1 = new sap.ui.commons.Dialog();
+   oDialog1.setTitle("Create Dialog");
+   var ustring = oTable.getContextByIndex(oTable.getSelectedIndices());
+   
+   var oLabelAgency = new sap.ui.commons.Label({text: "Id#"});
+   var oLabel = new sap.ui.commons.Label({text: "Name"});
+   var oLabelModelo = new sap.ui.commons.Label({text: "Modelo"});
+   var oTextField = new sap.ui.commons.TextField();
+   var oTextFieldAgency = new sap.ui.commons.TextField();
+   var oTextFieldModelo = new sap.ui.commons.TextField();
+   
+   /*oDialog1.addContent(oLabelAgency);
+   oDialog1.addContent(oTextFieldAgency);
+   oDialog1.addContent(oLabel);
+   oDialog1.addContent(oTextField);*/
+   
+   var oMatrix = new sap.ui.commons.layout.MatrixLayout();
+   oMatrix.createRow(oLabelAgency, oTextFieldAgency);
+   oMatrix.createRow(oLabel, oTextField);
+   oMatrix.createRow(oLabelModelo, oTextFieldModelo);
+   oDialog1.addContent(oMatrix);
+   
+   oDialog1.addButton(new sap.ui.commons.Button({text: "Create", press:function(){ 
+    var that = this;
+    var oEntry = {};
+          //oEntry.agencynum = oTextFieldAgency.getValue();
+          //oEntry.NAME = oTextField.getValue();
+          oEntry.ID_CARRO = parseInt(oTextFieldAgency.getValue());
+          oEntry.NOME = oTextField.getValue();
+          oEntry.MODELO = oTextFieldModelo.getValue();
+    
+    		$.ajax({
+							  type: "POST",
+							  async: false,
+							  url: sServiceUrl, //sServiceUrlPOST,
+							  dataType: "json", 
+				              data: JSON.stringify(oEntry), //jSon),
+				              contentType: "application/json" ,
+							  success: function() {  
+							  	  oModel.refresh();
+								  oTable.getModel().refresh();
+								  sap.m.MessageToast.show("CAR Added Successfully");
+								  //oCreateDialog.close();
+				                  //sap.ui.getCore().byId("mTable").getModel().refresh(true);
+				                  //oTable.getModel().refresh(true);
+				                  //this.getView().byId("mTable").getModel().refresh(true);
+				                  addTotal();  
+		                      },
+							  
+				                error: function() {  
+				                	new sap.m.MessageToast.show("Error while adding the CAR");
+				                }  
+							}).done(function(data) {
+								//oModel = new sap.ui.model.json.JSONModel(data);
+								//oModel.push(data);
+								//binding model... 
+								//that.getView().setModel(oModel);
+								//oTable.setModel(oModel);
+
+								//var oData = oModel.getData() ;
+			    				//oData.push(data);
+			    				//ERRO - oModel.push(data);
+			    				//oModel.setData({results: oData}) ;
+			    				//oModel.setData(oData) ;
+			    				//oTable.getModel().setProperty("/d/results", oData.d.results);
+			    				//oModel.refresh();
+			    				
+			    				//sap.ui.getCore().getModel().getProperty("/modelData/data").push(response.data);
+								oModel.getProperty("/d/results").push(data.d.results);
+								oModel.refresh();
+								/*
+								var oModel2 = oTable.getModel().getProperty("/d/results");
+								//var oNewItem = {
+								//	ID_CARRO : data.d.results.ID_CARRO,
+								//	NOME : data.d.results.NOME, 
+								//	MODELO : data.d.results.MODEL,
+								//	ANO : data.d.results.ANO,
+								//	FABRICANTE : data.FABRICANTE
+								//};
+								oModel2.push(data.d.results);
+								oTable.getModel().setProperty("/d/results", oModel2);
+								*/
+							}).fail(function(error) {
+								reject();
+							});
+							//});
+      
+    //actionontable("Create","/Carros",oEntry);
+    oDialog1.close();
+    
+    	    // update list binding
+			//var list = this.getView().byId("table");
+			//var oItems = this.oTable.getBinding("rows");
+			//var oItems = oTable.getBinding("rows");
+			
+//			oModel.updateBindings({ bForceUpdate: true });
+//            oModel.refresh();
+			
+			//var oItems = that.oTable.getBinding("rows");
+			//oItems.refresh(true);
+
+    		//oTable.setModel(oModel);
+    		//oTable.bindRows("/d/results");
+    		
+    		//var oModel2 = oTable.getModel().getProperty("/d/results");
+//			oTable.getModel().setProperty("/d/results", null);
+//			oTable.setModel(oModel);
+//			oTable.bindRows("/d/results");
+			
+			//oTable.getBinding("rows").applyFilter();
+			//var binding = oTable.getBinding();
+			//binding.refresh();
+    
+    }}));
+   
+   oDialog1.addButton(new sap.ui.commons.Button({text: "Cancel", press:function(){oDialog1.close();}}));
+   
+   oDialog1.open();
+  };
+ 
+	//INIT - inicio
+    //var oModel = new sap.ui.model.odata.ODataModel(sServiceUrl); 
+    //var oModel = new sap.ui.model.json.JSONModel(sServiceUrl);
+    //sap.ui.getCore().setModel(oModel); // required to get the data in the textbox 
+
+
+	//INIT - inicio
+    var oModel = new sap.ui.model.json.JSONModel();
+    $.ajax({
+               type: 'GET',
+               url: sServiceUrl+"?$orderby=ID_CARRO",
+               dataType: 'json'
+               //success: function (data) {
+               //       oModel.setData({
+               //           modelData : data
+               //            });
+               //}
+           }).done(function(data) {
+           	  console.log("length = " + data.d.results.length);
+           	  initTotal(data.d.results.length);
+           	  oModel.setData(data); 
+   			  oModel.refresh();
+   			  sap.ui.getCore().setModel(oModel);
+  		   }).fail(function(error) {
+				reject();
+		   });
+    //INIT - fim
+    
+    //UI - inicio
+    var lblTotal = new sap.ui.commons.Label({ id : "lblTotal", text: "TOTAL"});
+    
+    var oTable = new sap.ui.table.Table({
+    	id: "mTable",
+    	selectionMode: sap.ui.table.SelectionMode.Single,
+    	selectionBehavior: sap.ui.table.SelectionBehavior.Row,
+    	enableBusyIndicator: true,
+     title: "dataBoom -> CARROS",
+     toolbar: new sap.ui.commons.Toolbar({items: [ 
+              new sap.ui.commons.Button({text: "Update", press: function(){updater(oTable);}}),
+              new sap.ui.commons.Button({text: "Create", press: function(){creater(oTable);}}),
+              new sap.ui.commons.Button({text: "Delete", press: function(){deleter(oTable);}}),
+              lblTotal]
+     	    })
+     }); 
+  
+	 // template: new sap.ui.commons.TextField({editable:false}).bindProperty("value", "ID_CARRO"),
+     oTable.addColumn(new sap.ui.table.Column({
+        label: new sap.ui.commons.Label({text: "ID_CARRO"}),
+        template: new sap.ui.commons.TextView().bindProperty("text", "ID_CARRO"),
+    	sortProperty: "ID_CARRO",
+     filterProperty: "ID_CARRO",
+     filterType: "sap.ui.model.type.Integer",
+     width: "50px"
+      }));
+
+     oTable.addColumn(new sap.ui.table.Column({
+        label: new sap.ui.commons.Label({text: "NOME"}),
+        template: new sap.ui.commons.TextView().bindProperty("text", "NOME"),
+        sortProperty: "NOME",
+     filterProperty: "NOME",
+     width: "200px"
+      }));
+
+    //  oTable.addColumn(new sap.ui.table.Column({
+    //    label: new sap.ui.commons.Label({value: "ANO"}),
+    //    template: new sap.ui.commons.TextField().bindProperty("value", "ANO"),
+    //    sortProperty: "ANO",
+    // filterProperty: "ANO",
+    // width: "100px"
+    //  }));
+
+     // oTable.addColumn(new sap.ui.table.Column({
+     //   label: new sap.ui.commons.Label({text: "MODELO"}),
+     //   template: new sap.ui.commons.TextField().bindProperty("text", "MODELO"),
+     //   sortProperty: "MODELO",
+     //filterProperty: "MODELO",
+     //width: "100px"
+    
+     // }));
+
+     oTable.addColumn(new sap.ui.table.Column({
+        label: new sap.ui.commons.Label({text: "MODELO"}),
+        template: new sap.ui.commons.TextView().bindProperty("text", "MODELO"),
+        sortProperty: "MODELO",
+     filterProperty: "MODELO",
+     width: "200px"
+      }));
+
+
+       oTable.setModel(oModel);
+       oTable.bindRows("/d/results");
+       //oTable.sort(oTable.getColumns()[0]);
+       //oTable.bindRows("*/*TravelagencyCollection");
+       oTable.placeAt("dataTable");
+       
+/*       var oPage = new sap.m.Page({
+			title: "SKYVIA - Carros",
+			showNavButton:true,
+			navButtonPress:onBack,
+			content: [
+			          oTable
+			]
+		});
+		oPage.placeAt("page");*/
+		//sap.m.Button
+		//                type : sap.m.ButtonType.Back,
+
+		var oButton = new sap.ui.commons.Button("Button1",{
+                text : "",
+                icon : "sap-icon://sys-back",
+                lite : true,
+                press: onBack       
+           }).placeAt("target1");   
+           
+		var oButton = new sap.ui.commons.Button("Button2",{
+                text : "",
+                icon : "sap-icon://nav-back",
+                lite : true,
+                press: onBack       
+           }).placeAt("target1");   
+           
+     </script>
+
+</head>
+<body class="sapUiBody" role="application">
+  <!--<h1>SAP OData in SAPUI5 </h1>-->
+  <div id="target1"></div>
+  <br>
+  <div id="dataTable"></div>
+</body>
+</html>
