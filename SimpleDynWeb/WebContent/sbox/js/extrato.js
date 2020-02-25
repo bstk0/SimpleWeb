@@ -1,19 +1,6 @@
 function showSaldo(data) {
-		//console.log("showExtrato.data:" + data.items );	
-		//var qsPeriodo = GetURLParameter('periodo');
-		//for ( var key in data.items) {
-			//var value = data[key];
-			//var value = data.documents[key].fields;
-			//var value = data.items[key];
-			//console.log(value);
-			//if (qsPeriodo != "")
-			//	var txtselected = (value.id == qsPeriodo ?  " selected" : "");
-			//else
-			//	var txtselected = (key == 0 ?  " selected" : "");
-			
-			$("#saldo").append('<p> Valor: ' + data.valor + '</p><p> Data:' + formatTimestamp(data.data) + '</p>'+
-					'<input type=hidden name=saldo_atual id=saldo_atual value=' + data.valor + '>');
-		//}
+	$("#saldo").append('<p> Valor: ' + data.valor + ' - Data: ' + formatTimestamp(data.data) + '</p>'+
+			'<input type=hidden name=saldo_atual id=saldo_atual value=' + data.valor + '>');
 }
 
 function getSaldo() {
@@ -43,7 +30,7 @@ function getSaldo() {
 
 function showExtrato(data) {
 	 $(".extrato").html('');
-	 var html='<table border=1>';
+	 var html='* exibe 10 ultimas linhas somente <br><table border=1>';
 	 //html += '<thead><td>ID1</td><td>TYPE1</td><td>ID2</td><td>TYPE2</td></thead>';
 	 //html += '<thead><td>TAG</td><td>DIA</td><td>DESCRICAO</td><td>VALOR</td><td>REALIZADO</td></thead>';
  	 html += '<thead><td>TIPO</td><td>DATA</td><td>VALOR</td><td>SALDO ANTERIOR</td><td>SALDO ATUAL</td><td>COMENTARIO</td></thead>';
@@ -110,9 +97,6 @@ if (tipo == 'C') {
 } else {
 	novoSaldo = parseNumero(saldoAtual) - parseNumero(valor);
 }
-
-alert("NovoSaldo" + novoSaldo);
-
 
 var MovimJ = {
   "type": "movim",
