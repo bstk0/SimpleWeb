@@ -65,6 +65,7 @@
 		 var $this = $(this);
 	     var number = $this.data('id');
 	     var periodo = document.getElementById("periodo").value;
+	     var tag = document.getElementById("tag").value;
 	     alert(number); 
 	     
 	     // make an ajax call
@@ -84,10 +85,17 @@
 		 postPagamentosCompl(periodoId,number);
 	     
 	     //refresh page
-	     location.reload(); 
-	     //window.location.href=window.location.href;
+	     //location.reload(); 
+		 var url = window.location.href;    
+		    url += '?periodo=' + periodo
+		    url += '&tag=' + tag
+		 window.location.href = url;
 	 });
-		 
+	 
+	 //$(".tag select").val( GetURLParameter('tag') );
+	 //console.log("atualizando tag ...");
+	 $("#tag").val( GetURLParameter('tag') );
+	
 	 getPeriodo();	 	 
 	 getListaPagamentosEfetuados();
 	 

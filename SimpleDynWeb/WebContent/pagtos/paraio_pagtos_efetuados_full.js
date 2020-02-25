@@ -298,11 +298,13 @@ function getListaPagamentosEfetuados() {
 //----------------------
 function onInit() {
 	// loadind data ....
+	var periodo = GetURLParameter('periodo');
+	var tag = GetURLParameter('tag');
 
-	getEfetuados(); 
+	getEfetuados(periodo); 
 	 
-	getPagamentos(); 
+	getPagamentos(tag); 
 
-	getPagamentosCompl();
+	getPagamentosCompl(periodo);
 
 }
