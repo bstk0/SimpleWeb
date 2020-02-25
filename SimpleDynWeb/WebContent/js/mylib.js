@@ -2,6 +2,12 @@
  * mylib - 10.02 - v1 
  */
 
+ function parseNumero(str) {
+	 if (str == "") str = "0";
+	 return parseFloat(str.replace(',', '.')); 
+ }
+
+
 function GetURLParameter(sParam) {
 	console.log("GetURLParameter.sParam:" + sParam);
     var sPageURL = window.location.search.substring(1);

@@ -11,7 +11,8 @@ function showSaldo(data) {
 			//else
 			//	var txtselected = (key == 0 ?  " selected" : "");
 			
-			$("#saldo").append('<p> Valor: ' + data.valor + '</p><p> Data:' + formatTimestamp(data.data) + '</p>');
+			$("#saldo").append('<p> Valor: ' + data.valor + '</p><p> Data:' + formatTimestamp(data.data) + '</p>'+
+					'<input type=hidden name=saldo_atual id=saldo_atual value=' + data.valor + '>');
 		//}
 }
 
@@ -90,6 +91,69 @@ function getExtrato() {
 			}
 		});
 }
+
+function postMovimento() {
+	
+var saldoAtual = $("#saldo_atual").val();	
+
+//alert("Saldo Atual:" + saldoAtual);
+	
+var valor = $("#valor").val();
+var tipo = $("#tipom").val();
+var data = new Date($("#data").val() + " 09:00:00").getTime();
+var comentario = $("#comentario").val();
+
+var novoSaldo;
+
+if (tipo == 'C') {
+	novoSaldo = parseNumero(saldoAtual) + parseNumero(valor);
+} else {
+	novoSaldo = parseNumero(saldoAtual) - parseNumero(valor);
+}
+
+alert("NovoSaldo" + novoSaldo);
+
+
+var MovimJ = {
+  "type": "movim",
+  "tipo": tipo,
+  "data": data,
+  "saldo_atual": novoSaldo,
+  "valor": valor,
+  "saldo_anterior": saldoAtual,
+  "comentario": comentario
+  };
+
+var SaldoJ = { "valor": novoSaldo, "data" : data};
+
+    $.ajax({
+	        url : "https://paraio.com/v1/movims/", // + periodoId + "/links/" + number,
+	        type : 'post',
+	        async: false,
+	        headers: { "Authorization": "Anonymous app:dbapp" },
+	        contentType: 'application/json',
+	        data:  JSON.stringify(MovimJ),
+        success: function () {
+           //alert('form was submitted');
+         }
+       });
+
+    //atualiza saldo
+    $.ajax({
+        url : "https://paraio.com/v1/saldo/1143180213983645696", // + periodoId + "/links/" + number,
+        type : 'PUT',
+        async: false,
+        headers: { "Authorization": "Anonymous app:dbapp" },
+        contentType: 'application/json',
+        data:  JSON.stringify(SaldoJ),
+    success: function () {
+       alert('form was submitted');
+     }
+   });
+
+    
+}
+
 
 //-----------------------------
 

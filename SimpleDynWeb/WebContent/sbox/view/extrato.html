@@ -3,14 +3,43 @@
 <head>
  <title>PAGTOS - PARAIO</title>
  <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
- <!-- <script type = "text/javascript" src = "/js/mylib.js"></script>  -->
+ <script type = "text/javascript" src = "../../js/mylib.js"></script>
  <script type = "text/javascript" src = "../../js/formatTimestamp.js"></script>
  <script type = "text/javascript" src = "../js/extrato.js"></script>
  
  <div id="saldo" name="saldo"></div>
  <br>
  <div class="extrato"></div>
+ <BR>
+    <div class="complemento">
+   		<br>
+   		TIPO  <select id="tipom" name="tipom">
+	  			<option value="C">CREDITO</option>
+	  			<option value="D">DEBITO</option>
+   			  </select><br>
+   		DATA  <input name="data" id="data">[mm/dd/yyyy]<br>
+        VALOR <input name="valor" id="valor"><br>
+        COMENTARO <input name="comentario" id="comentario"><br>
+   </div>
+  <br>
+ <button class="somebutton">REGISTRAR</button>
+ <br>
+ <button value="Refresh Page" onClick="window.location.href=window.location.href">REFRESH</button>
+ 
  <script>
  	onInit();
+ 
+ 	//--
+ 	
+	 $(document).on('click', '.somebutton', function () {	 
+		 console.log("click...");
+	     
+	     postMovimento();
+	     
+	     //refresh page
+	     location.reload(); 
+	     //window.location.href=window.location.href;
+	 });
+	
  </script>
  </html>
