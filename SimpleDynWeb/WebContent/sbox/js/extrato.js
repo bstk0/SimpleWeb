@@ -1,5 +1,5 @@
 function showSaldo(data) {
-	$("#saldo").append('<p> Valor: ' + data.valor + ' - Data: ' + formatTimestamp(data.data) + '</p>'+
+	$("#saldo").append('<p> Valor: ' + parseMoeda(data.valor) + ' - Data: ' + formatTimestamp(data.data) + '</p>'+
 			'<input type=hidden name=saldo_atual id=saldo_atual value=' + data.valor + '>');
 }
 
@@ -42,9 +42,9 @@ function showExtrato(data) {
 		html += '<tr>';
 		html += '<td>' + value.tipo + '</td>';
 		html += '<td>' + formatTimestamp(value.data) + '</td>';
-		html += '<td>' + value.valor + '</td>';
-		html += '<td>' + value.saldo_anterior + '</td>';
-		html += '<td>' + value.saldo_atual + '</td>';
+		html += '<td>' + parseNumero2(value.valor) + '</td>';
+		html += '<td>' + parseNumero2(value.saldo_anterior) + '</td>';
+		html += '<td>' + parseNumero2(value.saldo_atual) + '</td>';
 		html += '<td>' + value.comentario + '</td>';
 		html += '</tr>';
 	}
