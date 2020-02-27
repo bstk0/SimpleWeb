@@ -28,13 +28,15 @@
    <div class="retorno"></div>
    <div class="complemento">
    		<br>
-   		DATA REAL  <input name="dataReal" id="dataReal">[mm/dd/yyyy]<br>
-        VALOR REAL <input name="valorReal" id="valorReal"><br>
+   		DATA REAL  <input name="dataReal" id="dataReal"> [mm/dd/yyyy]<br>
+        VALOR REAL <input name="valorReal" id="valorReal"> [informe somente decimal com ","]<br>
    </div>
    <br>
    <button value="Refresh Page" onClick="window.location.href=window.location.href">REFRESH</button>
    <script>
    $(document).ready(function() {
+	   
+	   $("#dataReal").val( formatRetornoDataUS(new Date()) );
 
 		 $('select[name="periodo"]').on('change', function() {
 			 //$('.tag').on('change', function() {	 

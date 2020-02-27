@@ -2,6 +2,8 @@
  * mylib - 10.02 - v1 
  */
 
+//-------- NUMERO - INICIO
+
  function parseNumero(str) {
 	 if (str == "") str = "0";
 	 return parseFloat(str.replace(',', '.')); 
@@ -22,7 +24,18 @@
  function parseMoeda(totalPago) {
 	 return parseFloat(totalPago.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
  }
+//-------- NUMERO - FIM
  
+// -------- DATA - INICIO
+ 
+ function formatRetornoDataUS(p) {
+		//return p.getDate() + '/' + (p.getMonth()+1) + '/' + p.getFullYear();
+		return  ("0" + (p.getMonth() + 1)).slice(-2) + '/' +
+		        ("0" + p.getDate()).slice(-2) + '/' +
+		        p.getFullYear();
+}
+
+// -------- DATA - FIM
 
  function _getUrlVars() {
 	    var vars = {};

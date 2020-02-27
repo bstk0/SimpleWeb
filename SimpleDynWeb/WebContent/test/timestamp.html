@@ -22,6 +22,14 @@ function formatRetornoData(p) {
 	        p.getFullYear();
 }
 
+function formatRetornoDataUS(p) {
+	//return p.getDate() + '/' + (p.getMonth()+1) + '/' + p.getFullYear();
+	return  ("0" + (p.getMonth() + 1)).slice(-2) + '/' +
+	        ("0" + p.getDate()).slice(-2) + '/' +
+	        p.getFullYear();
+}
+
+
 function formatRetornoDataFull(p) {
 	//return p.getDate() + '/' + (p.getMonth()+1) + '/' + p.getFullYear();
 	return  ("0" + p.getDate()).slice(-2) + '/' +
@@ -92,8 +100,12 @@ appDiv.innerHTML += '[*] ATUAL - new Data.getTime():' + ta + '<br>';
 appDiv.innerHTML += 'formatTimestamp - Timestamp from Paraio 2 ['+ta+']:' + formatTimestamp(ta) + '<br>';
 appDiv.innerHTML += 'formatTimestampFull - Timestamp from Paraio 2 ['+ta+']:' + formatTimestampFull(ta) + '<br>';
 appDiv.innerHTML += '---------------<br>';
-
-
+//data formato US
+appDiv.innerHTML += 'Data Formato US:' + b.getDate() + '/' + b.getMonth() + '/' + b.getFullYear() + '<br>';
+//formatRetornoData BR
+appDiv.innerHTML += 'Data Formato BR (formatRetornoData) :' + formatRetornoData(b) + '<br>';
+// formatRetornoDataUS
+appDiv.innerHTML += 'Data Formato US (formatRetornoDataUS) :' + formatRetornoDataUS(b) + '<br>';
 </script>
 
 </html>
