@@ -6,10 +6,6 @@
  
  function cBack(data) { alert(JSON.stringify(data)); }
  
- function parseMoeda(totalPago) {
-	 return parseFloat(totalPago.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
- }
- 
  // -- Periodo
  function AppendPeriodo(data) {
 		//console.log(data);

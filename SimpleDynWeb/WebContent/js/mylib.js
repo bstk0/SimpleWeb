@@ -7,6 +7,10 @@
 	 return parseFloat(str.replace(',', '.')); 
  }
 
+ function parseMoeda(totalPago) {
+	 return parseFloat(totalPago.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+ }
+
  function _getUrlVars() {
 	    var vars = {};
 	    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
