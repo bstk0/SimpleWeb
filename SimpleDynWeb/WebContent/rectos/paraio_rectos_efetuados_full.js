@@ -174,9 +174,9 @@ function AppendRecebimentos(data) {
 function getRecebimentos(tag) {	
 	
 	if(tag == null || typeof tag === 'undefined' || tag == "")
-	 	var url = "https://paraio.com/v1/rectos?sort=properties.dia:asc";
+		 var url = "https://paraio.com/v1/rectos?sort=properties.dia&desc=false";
 	else
-     	var url = "https://paraio.com/v1/rectos/search?q=properties.tag:"+tag+"&sort=properties.dia:asc";
+     	var url = "https://paraio.com/v1/rectos/search?q=properties.tag:"+tag+"&sort=properties.dia&desc=false";
 	
 			$.ajax({
 					type : 'GET',
