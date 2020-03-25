@@ -208,9 +208,9 @@ function AppendPagamentos(data) {
 function getPagamentos(tag) {
 	console.log("getPagamentos.tag:"+tag);
 	if(tag == null || typeof tag === 'undefined' || tag == "")
-	 	var url = "https://paraio.com/v1/pagtos?sort=properties.dia:asc";
+	 	var url = "https://paraio.com/v1/pagtos?sort=properties.dia&desc=false";
 	else
-     	var url = "https://paraio.com/v1/pagtos/search?q=properties.tag:"+tag+"&sort=properties.dia:asc";
+     	var url = "https://paraio.com/v1/pagtos/search?q=properties.tag:"+tag+"&sort=properties.dia&desc=false";
 	
 			$.ajax({
 					type : 'GET',
