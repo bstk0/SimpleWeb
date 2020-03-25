@@ -17,11 +17,11 @@
           e.preventDefault();
           
           //var tag = $("#tag").val();
-          var periodo = $("#periodo").val();
-          var mes = $("#mes").val();
-          var ano = $("#ano").val();
+          let periodo = $("#periodo").val();
+          let mes = parseInt($("#mes").val());
+          let ano = parseInt($("#ano").val());
 
-          var userDetails = {
+          let userDetails = {
             "type": "periodo",
             "mes" : mes,
             "ano": ano,
@@ -46,12 +46,12 @@
     </script>
   </head>
   <body>
-  <h1>Incluir Período</h1>
+  <h1>Incluir Periodo</h1>
     <h2><a href="index.html">Voltar</a></h2><br>
     <form>
-      MES <input name="mes" id="mes"><br>
-      ANO <input name="ano" id="ano"><br>
-      PERIODO <input name="periodo" id="periodo"><br><br>
+      MES <input name="mes" id="mes" placeholder="informe numero"><br>
+      ANO <input name="ano" id="ano" placeholder="informe numero"><br>
+      PERIODO <input name="periodo" id="periodo" placeholder="informe texto mm/yyyy"><br><br>
       <input name="submit" type="submit" value="Submit">
     </form>
   </body>
