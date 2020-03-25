@@ -19,13 +19,13 @@
 
           e.preventDefault();
           
-          var tag = $("#tag").val();
-          var tipoPagamento = $("#tipoPagamento").val();
-          var periodo = $("#periodo").val();
-          var valor = $("#valor").val();
-          var dia = $("#dia").val();
-          var descricao = $("#descricao").val();
-          var imovelId = $("#imovelId").val();
+          let tag = $("#tag").val();
+          let tipoPagamento = $("#tipoPagamento").val();
+          let periodo = $("#periodo").val();
+          let valor = $("#valor").val();
+          let dia = parseInt($("#dia").val());
+          let descricao = $("#descricao").val();
+          let imovelId = $("#imovelId").val();
 
           var userDetails = {
             "type": "recto",
