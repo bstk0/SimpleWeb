@@ -8,7 +8,7 @@
 	  "valor": "939,29",
 	  "tag": "eu",
 	  "dia": 1,
-	  "descricao": "Condomínio"
+	  "descricao": "Condomï¿½nio"
 	}*/
       $(function () {
 
@@ -16,10 +16,10 @@
 
           e.preventDefault();
           
-          var tag = $("#tag").val();
-          var descricao = $("#descricao").val();
-          var dia = $("#dia").val();
-          var valor = $("#valor").val();
+          let tag = $("#tag").val();
+          let descricao = $("#descricao").val();
+          let dia = parseInt($("#dia").val());
+          let valor = $("#valor").val();
 
           var userDetails = {
             "type": "pagto",
@@ -39,15 +39,14 @@
               alert('form was submitted');
             }
           });
-
         });
 
       });
       
 /*
 	        	   type : "object1",
-	               titulo : "TESTE BISTERÇO 3",
-	               resumo: "TESTE POST - acentuação",
+	               titulo : "TESTE BISTERï¿½O 3",
+	               resumo: "TESTE POST - acentuaï¿½ï¿½o",
 	               ano :'2020'
 
 */
